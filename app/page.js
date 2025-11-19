@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { Check, ChevronLeft, Mail, Lock, User, Shield } from 'lucide-react';
+import { Check, ChevronLeft, Mail, Lock, User, Shield, Star, TrendingUp, Award, Heart } from 'lucide-react';
 
 const WellnessPath = () => {
   const [step, setStep] = useState(1);
@@ -9,14 +9,15 @@ const WellnessPath = () => {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [selectedPlan, setSelectedPlan] = useState('premium');
+  const [inputValue, setInputValue] = useState('');
 
   const questions = [
     {
       id: 1,
       question: "What is your gender?",
       options: [
-        { value: "female", label: "Female" },
-        { value: "male", label: "Male" }
+        { value: "female", label: "Female", emoji: "👩" },
+        { value: "male", label: "Male", emoji: "👨" }
       ],
       hasImages: true
     },
@@ -24,11 +25,10 @@ const WellnessPath = () => {
       id: 2,
       question: "What is your primary wellness goal?",
       options: [
-        { value: "look_better", label: "Improve appearance and confidence" },
-        { value: "health", label: "Enhance overall health" },
-        { value: "both", label: "Both equally important" }
-      ],
-      hasImages: true
+        { value: "look_better", label: "Improve appearance and confidence", icon: "✨" },
+        { value: "health", label: "Enhance overall health", icon: "❤️" },
+        { value: "both", label: "Both equally important", icon: "🎯" }
+      ]
     },
     {
       id: 3,
@@ -370,9 +370,10 @@ const WellnessPath = () => {
     }
   };
 
-  const handleInputSubmit = (questionId, value) => {
-    if (value) {
-      handleAnswer(questionId, value);
+  const handleInputSubmit = (questionId) => {
+    if (inputValue && parseFloat(inputValue) > 0) {
+      handleAnswer(questionId, inputValue);
+      setInputValue('');
     }
   };
 
@@ -381,77 +382,82 @@ const WellnessPath = () => {
   // Loading Screen
   if (loading && step <= 36) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-900 via-emerald-800 to-green-900 flex items-center justify-center p-4 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-teal-400 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-green-400 rounded-full blur-3xl"></div>
+      <div className="min-h-screen bg-gradient-to-br from-teal-900 via-emerald-800 to-green-900 to-purple-900 flex items-center justify-center p-4 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-green-900 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500 rounded-full blur-3xl animate-pulse"></div>
         </div>
 
         <div className="max-w-2xl w-full relative z-10">
-          <h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-16 leading-tight">
-            Analyzing Your Profile<br/>Creating Your Personalized Plan
-          </h1>
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              Analyzing Your Profile
+            </h1>
+            <p className="text-xl text-blue-200">Creating Your Personalized Wellness Plan</p>
+          </div>
           
-          <div className="relative w-56 h-56 mx-auto mb-16">
-            <svg className="transform -rotate-90 w-56 h-56">
+          <div className="relative w-64 h-64 mx-auto mb-12">
+            <svg className="transform -rotate-90 w-64 h-64">
               <circle
-                cx="112"
-                cy="112"
-                r="100"
-                stroke="rgba(255, 255, 255, 0.15)"
-                strokeWidth="16"
+                cx="128"
+                cy="128"
+                r="110"
+                stroke="rgba(255, 255, 255, 0.1)"
+                strokeWidth="20"
                 fill="none"
               />
               <circle
-                cx="112"
-                cy="112"
-                r="100"
+                cx="128"
+                cy="128"
+                r="110"
                 stroke="url(#gradient)"
-                strokeWidth="16"
+                strokeWidth="20"
                 fill="none"
-                strokeDasharray={`${2 * Math.PI * 100}`}
-                strokeDashoffset={`${2 * Math.PI * 100 * (1 - progress / 100)}`}
+                strokeDasharray={`${2 * Math.PI * 110}`}
+                strokeDashoffset={`${2 * Math.PI * 110 * (1 - progress / 100)}`}
                 className="transition-all duration-300"
                 strokeLinecap="round"
               />
               <defs>
                 <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#14B8A6" />
-                  <stop offset="100%" stopColor="#10B981" />
+                  <stop offset="0%" stopColor="#3B82F6" />
+                  <stop offset="50%" stopColor="#8B5CF6" />
+                  <stop offset="100%" stopColor="#EC4899" />
                 </linearGradient>
               </defs>
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-5xl font-bold text-white">{Math.round(progress)}%</span>
+              <span className="text-6xl font-bold text-white">{Math.round(progress)}%</span>
             </div>
           </div>
 
-          <div className="bg-white/95 backdrop-blur rounded-2xl p-8 shadow-2xl">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          <div className="bg-white rounded-3xl p-8 shadow-2xl">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+              <TrendingUp className="w-7 h-7 text-blue-600" />
               Your Profile Analysis
             </h2>
             <div className="space-y-5">
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Check className="w-5 h-5 text-white" strokeWidth={3} />
+              <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-900 to-blue-600 flex items-center justify-center flex-shrink-0">
+                  <Check className="w-6 h-6 text-white" strokeWidth={3} />
                 </div>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed pt-1">
                   Based on your profile, you're an excellent candidate for a structured wellness program with projected results within 8-12 weeks
                 </p>
               </div>
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Check className="w-5 h-5 text-white" strokeWidth={3} />
+              <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center flex-shrink-0">
+                  <Check className="w-6 h-6 text-white" strokeWidth={3} />
                 </div>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed pt-1">
                   87% of users with similar profiles achieve their wellness goals within the projected timeline using our evidence-based approach
                 </p>
               </div>
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Check className="w-5 h-5 text-white" strokeWidth={3} />
+              <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center flex-shrink-0">
+                  <Check className="w-6 h-6 text-white" strokeWidth={3} />
                 </div>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed pt-1">
                   Your personalized nutrition and fitness plan is being optimized for your specific needs and lifestyle
                 </p>
               </div>
@@ -465,49 +471,54 @@ const WellnessPath = () => {
   // Email Capture Screen
   if (step === 37) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-emerald-50 to-green-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 flex items-center justify-center p-4">
         <div className="max-w-2xl w-full">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-teal-600 to-emerald-600 rounded-2xl shadow-xl mb-6">
-              <Mail className="w-12 h-12 text-white" strokeWidth={2} />
+            <div className="inline-flex items-center justify-center w-28 h-28 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 rounded-3xl shadow-2xl mb-8 animate-pulse">
+              <Mail className="w-14 h-14 text-white" strokeWidth={2} />
             </div>
             
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight px-4">
-              Receive Your Personalized Wellness Plan
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+              Get Your Personalized<br />Wellness Plan
             </h1>
-            <p className="text-lg text-gray-600 max-w-xl mx-auto">
-              Get your customized roadmap to reach your {answers[4] || '62'}kg goal delivered to your inbox
+            <p className="text-xl text-gray-600 max-w-xl mx-auto">
+              Receive your customized roadmap to reach your {answers[4] || '62'}kg goal
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl p-8 md:p-10 shadow-xl border border-gray-100">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your.email@example.com"
-              className="w-full px-6 py-4 text-lg bg-gray-50 border-2 border-gray-200 rounded-xl focus:bg-white focus:border-teal-500 focus:outline-none mb-4 transition-all"
-            />
-            
-            <div className="flex items-start gap-3 text-sm text-gray-600 mb-6 p-4 bg-teal-50 rounded-xl">
-              <Shield className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
-              <p className="leading-relaxed">Your privacy is our priority. All personal information is encrypted and securely stored.</p>
+          <div className="bg-white rounded-3xl p-10 shadow-2xl border border-gray-100">
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-bold text-gray-800 mb-3">Email Address</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your.email@example.com"
+                  className="w-full px-6 py-4 text-lg bg-gray-50 border-2 border-gray-200 rounded-2xl focus:bg-white focus:border-green-900 focus:outline-none transition-all"
+                />
+              </div>
+              
+              <div className="flex items-center gap-3 text-sm text-gray-600 p-5 bg-blue-50 rounded-2xl border border-blue-100">
+                <Shield className="w-6 h-6 text-blue-600 flex-shrink-0" />
+                <p className="leading-relaxed">Your privacy is our priority. All personal information is encrypted and securely stored.</p>
+              </div>
+
+              <button
+                onClick={() => {
+                  if (email) {
+                    setStep(38);
+                  }
+                }}
+                disabled={!email}
+                className="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-5 px-6 rounded-2xl transition-all text-lg shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98]"
+              >
+                Get My Personalized Plan
+              </button>
             </div>
 
-            <button
-              onClick={() => {
-                if (email) {
-                  setStep(38);
-                }
-              }}
-              className="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-semibold py-4 px-6 rounded-xl transition-all text-lg shadow-lg hover:shadow-xl"
-            >
-              Get My Personalized Plan
-            </button>
-
             <p className="text-xs text-gray-500 text-center mt-6 leading-relaxed">
-              By continuing, you acknowledge that you have read and agree to our Terms of Service and Privacy Policy
+              By continuing, you agree to our Terms of Service and Privacy Policy
             </p>
           </div>
         </div>
@@ -517,187 +528,224 @@ const WellnessPath = () => {
 
   // Payment Page
   if (step === 38) {
+    const plans = [
+      {
+        id: 'basic',
+        name: 'Basic',
+        price: 29,
+        color: 'from-gray-600 to-gray-700',
+        borderColor: 'border-gray-300',
+        features: [
+          'Personalized meal plans',
+          'Basic workout routines',
+          'Progress tracking',
+          'Email support'
+        ]
+      },
+      {
+        id: 'premium',
+        name: 'Premium',
+        price: 59,
+        popular: true,
+        color: 'from-blue-600 to-indigo-600',
+        borderColor: 'border-blue-300',
+        features: [
+          'Everything in Basic',
+          'Advanced workout programs',
+          '1-on-1 nutritionist consultation',
+          'Priority chat support',
+          'Weekly progress reviews'
+        ]
+      },
+      {
+        id: 'elite',
+        name: 'Elite',
+        price: 99,
+        color: 'from-purple-600 to-pink-600',
+        borderColor: 'border-purple-300',
+        features: [
+          'Everything in Premium',
+          'Personal trainer sessions',
+          '24/7 dedicated support',
+          'Custom supplement plans',
+          'Monthly body composition analysis'
+        ]
+      }
+    ];
+
     return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-emerald-50 to-green-50 py-8 px-4">
-        <div className="max-w-6xl mx-auto">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 py-12 px-4">
+        <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              Choose Your Wellness Plan
+          <div className="text-center mb-16">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Choose Your Plan
             </h1>
-            <p className="text-lg text-gray-600">
-              Select the plan that works best for your goals
+            <p className="text-xl text-gray-600">
+              Invest in your health with the right support level
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
-            {/* Basic Plan */}
-            <div className={`bg-white rounded-2xl p-8 shadow-lg border-2 transition-all cursor-pointer ${selectedPlan === 'basic' ? 'border-teal-600 shadow-xl' : 'border-gray-200 hover:border-teal-300'}`}
-              onClick={() => setSelectedPlan('basic')}>
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Basic</h3>
-                <div className="text-4xl font-bold text-teal-600 mb-1">$29</div>
-                <div className="text-sm text-gray-500">per month</div>
-              </div>
-              
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Personalized meal plans</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Basic workout routines</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Progress tracking</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Email support</span>
-                </li>
-              </ul>
-            </div>
+          {/* Plans */}
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            {plans.map((plan) => (
+              <div
+                key={plan.id}
+                onClick={() => setSelectedPlan(plan.id)}
+                className={`relative bg-white rounded-3xl p-8 shadow-xl border-4 transition-all cursor-pointer hover:scale-105 ${
+                  selectedPlan === plan.id ? plan.borderColor + ' shadow-2xl scale-105' : 'border-transparent hover:border-gray-200'
+                } ${plan.popular ? 'md:scale-110 z-10' : ''}`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-5 left-1/2 transform -translate-x-1/2">
+                    <span className={`bg-gradient-to-r ${plan.color} text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg flex items-center gap-2`}>
+                      <Star className="w-4 h-4 fill-current" />
+                      Most Popular
+                    </span>
+                  </div>
+                )}
+                
+                <div className="text-center mb-8">
+                  <h3 className="text-3xl font-bold text-gray-900 mb-4">{plan.name}</h3>
+                  <div className="flex items-baseline justify-center gap-2 mb-2">
+                    <span className="text-5xl font-bold text-gray-900">${plan.price}</span>
+                    <span className="text-lg text-gray-500">/month</span>
+                  </div>
+                </div>
+                
+                <ul className="space-y-4 mb-8">
+                  {plan.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-start gap-3">
+                      <div className={`w-6 h-6 rounded-full bg-gradient-to-br ${plan.color} flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                        <Check className="w-4 h-4 text-white" strokeWidth={3} />
+                      </div>
+                      <span className="text-gray-700">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
 
-            {/* Premium Plan */}
-            <div className={`bg-white rounded-2xl p-8 shadow-lg border-2 transition-all cursor-pointer relative ${selectedPlan === 'premium' ? 'border-emerald-600 shadow-2xl scale-105' : 'border-emerald-300 hover:border-emerald-400'}`}
-              onClick={() => setSelectedPlan('premium')}>
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <span className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
-                  Most Popular
-                </span>
+                {selectedPlan === plan.id && (
+                  <div className={`w-full py-3 bg-gradient-to-r ${plan.color} text-white font-bold rounded-2xl text-center`}>
+                    Selected
+                  </div>
+                )}
               </div>
-              
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Premium</h3>
-                <div className="text-4xl font-bold text-emerald-600 mb-1">$59</div>
-                <div className="text-sm text-gray-500">per month</div>
-              </div>
-              
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Everything in Basic</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Advanced workout programs</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">1-on-1 nutritionist consultation</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Priority chat support</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Weekly progress reviews</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Elite Plan */}
-            <div className={`bg-white rounded-2xl p-8 shadow-lg border-2 transition-all cursor-pointer ${selectedPlan === 'elite' ? 'border-green-600 shadow-xl' : 'border-gray-200 hover:border-green-300'}`}
-              onClick={() => setSelectedPlan('elite')}>
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Elite</h3>
-                <div className="text-4xl font-bold text-green-600 mb-1">$99</div>
-                <div className="text-sm text-gray-500">per month</div>
-              </div>
-              
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Everything in Premium</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Personal trainer sessions</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">24/7 dedicated support</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Custom supplement plans</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Monthly body composition analysis</span>
-                </li>
-              </ul>
-            </div>
+            ))}
           </div>
 
-          {/* Payment Methods */}
-          <div className="max-w-2xl mx-auto bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Payment Method</h2>
+          {/* Payment Form */}
+          <div className="max-w-2xl mx-auto bg-white rounded-3xl p-10 shadow-2xl border border-gray-100">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8 flex items-center gap-3">
+              <Lock className="w-8 h-8 text-blue-600" />
+              Secure Payment
+            </h2>
             
-            <div className="space-y-4 mb-8">
-              {/* Credit Card */}
-              <div className="border-2 border-teal-600 rounded-xl p-6 bg-teal-50">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-6 h-6 rounded-full border-2 border-teal-600 bg-teal-600 flex items-center justify-center">
-                    <div className="w-2 h-2 bg-white rounded-full"></div>
+            <div className="space-y-6">
+              {/* Card Payment */}
+              <div className="border-3 border-green-900 rounded-2xl p-6 bg-gradient-to-br from-blue-50 to-indigo-50">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-7 h-7 rounded-full border-4 border-blue-600 bg-blue-600 flex items-center justify-center">
+                    <div className="w-3 h-3 bg-white rounded-full"></div>
                   </div>
-                  <span className="font-semibold text-gray-900">Credit / Debit Card</span>
+                  <span className="font-bold text-gray-900 text-lg">Credit / Debit Card</span>
                 </div>
                 
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Card Number</label>
-                    <input type="text" placeholder="1234 5678 9012 3456" className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-teal-500 focus:outline-none" />
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Card Number</label>
+                    <input 
+                      type="text" 
+                      placeholder="1234 5678 9012 3456" 
+                      className="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:border-green-900 focus:outline-none transition-all bg-white"
+                    />
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Expiry Date</label>
-                      <input type="text" placeholder="MM/YY" className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-teal-500 focus:outline-none" />
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">Expiry Date</label>
+                      <input 
+                        type="text" 
+                        placeholder="MM/YY" 
+                        className="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:border-green-900 focus:outline-none transition-all bg-white"
+                      />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">CVV</label>
-                      <input type="text" placeholder="123" className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-teal-500 focus:outline-none" />
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">CVV</label>
+                      <input 
+                        type="text" 
+                        placeholder="123" 
+                        className="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:border-green-900 focus:outline-none transition-all bg-white"
+                      />
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* PayPal */}
-              <div className="border-2 border-gray-200 rounded-xl p-6 hover:border-teal-300 cursor-pointer transition-all">
-                <div className="flex items-center gap-3">
-                  <div className="w-6 h-6 rounded-full border-2 border-gray-300"></div>
-                  <span className="font-semibold text-gray-900">PayPal</span>
-                  <div className="ml-auto">
-                    <span className="text-2xl font-bold text-blue-600">Pay</span><span className="text-2xl font-bold text-cyan-600">Pal</span>
+              {/* Alternative Payment Methods */}
+              <div className="space-y-3">
+                <div className="border-2 border-gray-200 rounded-2xl p-5 hover:border-blue-400 cursor-pointer transition-all group">
+                  <div className="flex items-center gap-3">
+                    <div className="w-6 h-6 rounded-full border-2 border-gray-300 group-hover:border-green-900 transition-all"></div>
+                    <span className="font-semibold text-gray-900 text-lg">PayPal</span>
+                    <div className="ml-auto flex items-center">
+                      <span className="text-2xl font-bold text-blue-600">Pay</span>
+                      <span className="text-2xl font-bold text-cyan-600">Pal</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="border-2 border-gray-200 rounded-2xl p-5 hover:border-blue-400 cursor-pointer transition-all group">
+                  <div className="flex items-center gap-3">
+                    <div className="w-6 h-6 rounded-full border-2 border-gray-300 group-hover:border-green-900 transition-all"></div>
+                    <span className="font-semibold text-gray-900 text-lg">Google Pay</span>
+                    <div className="ml-auto">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-900 to-green-500 flex items-center justify-center text-white font-bold">
+                        G
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Google Pay */}
-              <div className="border-2 border-gray-200 rounded-xl p-6 hover:border-teal-300 cursor-pointer transition-all">
-                <div className="flex items-center gap-3">
-                  <div className="w-6 h-6 rounded-full border-2 border-gray-300"></div>
-                  <span className="font-semibold text-gray-900">Google Pay</span>
-                  <div className="ml-auto text-2xl">G</div>
-                </div>
+              <button
+                onClick={() => {
+                  const planName = plans.find(p => p.id === selectedPlan)?.name;
+                  alert(`🎉 Payment successful! Welcome to the ${planName} plan!\n\nYour personalized wellness journey begins now.`);
+                }}
+                className="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white font-bold py-5 px-6 rounded-2xl transition-all text-lg shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98]"
+              >
+                Complete Payment - ${plans.find(p => p.id === selectedPlan)?.price}/month
+              </button>
+
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
+                <Lock className="w-4 h-4" />
+                <span>Secure 256-bit SSL encryption</span>
               </div>
             </div>
+          </div>
 
-            <button
-              onClick={() => alert(`Payment successful! Welcome to the ${selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} plan!`)}
-              className="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-semibold py-4 px-6 rounded-xl transition-all text-lg shadow-lg hover:shadow-xl"
-            >
-              Complete Payment
-            </button>
-
-            <p className="text-xs text-gray-500 text-center mt-6 leading-relaxed">
-              <Lock className="w-3 h-3 inline mr-1" />
-              Secure payment processed with 256-bit SSL encryption
-            </p>
+          {/* Trust Badges */}
+          <div className="max-w-4xl mx-auto mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
+              <Award className="w-12 h-12 text-blue-600 mx-auto mb-3" />
+              <div className="text-2xl font-bold text-gray-900">50K+</div>
+              <div className="text-sm text-gray-600">Happy Members</div>
+            </div>
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
+              <Star className="w-12 h-12 text-yellow-500 mx-auto mb-3 fill-current" />
+              <div className="text-2xl font-bold text-gray-900">4.9/5</div>
+              <div className="text-sm text-gray-600">Average Rating</div>
+            </div>
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
+              <TrendingUp className="w-12 h-12 text-green-600 mx-auto mb-3" />
+              <div className="text-2xl font-bold text-gray-900">87%</div>
+              <div className="text-sm text-gray-600">Success Rate</div>
+            </div>
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
+              <Heart className="w-12 h-12 text-red-600 mx-auto mb-3 fill-current" />
+              <div className="text-2xl font-bold text-gray-900">100%</div>
+              <div className="text-sm text-gray-600">Money-Back</div>
+            </div>
           </div>
         </div>
       </div>
@@ -706,30 +754,35 @@ const WellnessPath = () => {
 
   // Main Question Flow
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-900 via-emerald-800 to-green-900 relative overflow-hidden">
-      <div className="absolute inset-0 opacity-5 pointer-events-none">
-        <div className="absolute top-10 right-10 w-96 h-96 bg-teal-400 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-10 left-10 w-80 h-80 bg-green-400 rounded-full blur-3xl"></div>
+    <div className="min-h-screen bg-gradient-to-br from-teal-900 via-emerald-800 to-green-900 to-purple-900 relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-green-900 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-indigo-500 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
       </div>
 
       {/* Header */}
-      <header className="bg-white/95 backdrop-blur shadow-sm relative z-20 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <header className="bg-white/95 backdrop-blur-lg shadow-lg relative z-20 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-teal-600 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-xl font-bold text-white">W</span>
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-xl">
+              <Heart className="w-7 h-7 text-white" strokeWidth={2.5} />
             </div>
-            <span className="font-bold text-xl sm:text-2xl text-gray-900">Wellness<span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-600">Path</span></span>
+            <div>
+              <span className="font-bold text-2xl text-gray-900">Wellness</span>
+              <span className="font-bold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Path</span>
+            </div>
           </div>
-          <button className="w-10 h-10 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center">
-            <User className="w-5 h-5 text-gray-600" />
+          <button className="w-11 h-11 rounded-xl bg-gradient-to-br from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 transition-all flex items-center justify-center shadow-lg hover:shadow-xl">
+            <User className="w-5 h-5 text-gray-700" />
           </button>
         </div>
       </header>
 
       {/* Progress Bar */}
       {step <= 36 && (
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 relative z-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 relative z-20">
           <div className="flex items-center gap-4">
             {step > 1 && (
               <button
@@ -737,19 +790,19 @@ const WellnessPath = () => {
                   setStep(step - 1);
                   setProgress(((step - 2) / 36) * 100);
                 }}
-                className="w-11 h-11 rounded-xl bg-white/95 backdrop-blur shadow-lg flex items-center justify-center hover:bg-white transition-all hover:scale-105"
+                className="w-12 h-12 rounded-xl bg-white/95 backdrop-blur-lg shadow-xl flex items-center justify-center hover:bg-white transition-all hover:scale-110 active:scale-95"
               >
-                <ChevronLeft className="w-5 h-5 text-gray-700" strokeWidth={2.5} />
+                <ChevronLeft className="w-6 h-6 text-gray-700" strokeWidth={2.5} />
               </button>
             )}
             <div className="flex-1">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium text-white/90">Progress</span>
-                <span className="text-sm font-semibold text-white">{step} of 36</span>
+              <div className="flex justify-between items-center mb-3">
+                <span className="text-sm font-semibold text-white/90">Question {step} of 36</span>
+                <span className="text-sm font-bold text-white bg-white/20 backdrop-blur px-4 py-1 rounded-full">{Math.round((step / 36) * 100)}%</span>
               </div>
-              <div className="h-2 bg-white/20 rounded-full overflow-hidden backdrop-blur-sm">
+              <div className="h-3 bg-white/20 rounded-full overflow-hidden backdrop-blur-sm shadow-inner">
                 <div
-                  className="h-full bg-gradient-to-r from-teal-400 to-emerald-500 transition-all duration-500 ease-out rounded-full"
+                  className="h-full bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 transition-all duration-500 ease-out rounded-full shadow-lg"
                   style={{ width: `${(step / 36) * 100}%` }}
                 />
               </div>
@@ -759,70 +812,80 @@ const WellnessPath = () => {
       )}
 
       {/* Main Content */}
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-12 relative z-10">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-12 relative z-10">
         {step === 1 && (
-          <div className="text-center mb-16">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-              Your Journey to Better Health<br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-400">Starts Here</span>
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur px-6 py-3 rounded-full mb-8 border border-white/20">
+              <Award className="w-5 h-5 text-yellow-400" />
+              <span className="text-white font-semibold">Evidence-Based Wellness Program</span>
+            </div>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+              Transform Your Life<br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">One Step at a Time</span>
             </h1>
-            <p className="text-xl text-white/80 max-w-2xl mx-auto">
-              Evidence-based wellness program tailored to your unique needs
+            <p className="text-2xl text-blue-200 max-w-3xl mx-auto leading-relaxed">
+              Personalized wellness journey tailored to your unique needs and goals
             </p>
           </div>
         )}
 
-        <div className="text-center mb-12">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight px-4">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight px-4">
             {currentQuestion?.question}
           </h2>
         </div>
 
         {currentQuestion?.type === 'input' ? (
-          <div className="max-w-md mx-auto">
-            <div className="bg-white/95 backdrop-blur rounded-2xl p-8 shadow-2xl border border-white/20">
-              <div className="flex items-center justify-center gap-4 mb-6">
+          <div className="max-w-lg mx-auto">
+            <div className="bg-white rounded-3xl p-10 shadow-2xl border-4 border-blue-200">
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-green-900 to-indigo-600 rounded-2xl mb-6 shadow-xl">
+                  <TrendingUp className="w-10 h-10 text-white" />
+                </div>
+              </div>
+              <div className="flex items-center justify-center gap-4 mb-8">
                 <input
                   type={currentQuestion.inputType}
-                  className="w-32 px-6 py-4 text-3xl font-bold border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none text-center bg-gray-50 focus:bg-white transition-all"
-                  placeholder="00"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  className="w-40 px-6 py-5 text-4xl font-bold border-3 border-gray-300 rounded-2xl focus:border-green-900 focus:outline-none text-center bg-gray-50 focus:bg-white transition-all shadow-inner"
+                  placeholder="0"
                   onKeyPress={(e) => {
                     if (e.key === 'Enter') {
-                      handleInputSubmit(currentQuestion.id, e.target.value);
+                      handleInputSubmit(currentQuestion.id);
                     }
                   }}
                   autoFocus
                 />
-                <span className="text-3xl font-bold text-gray-700">
+                <span className="text-4xl font-bold text-gray-700">
                   {currentQuestion.unit}
                 </span>
               </div>
               <button
-                onClick={(e) => {
-                  const input = e.target.parentElement.parentElement.querySelector('input');
-                  handleInputSubmit(currentQuestion.id, input.value);
-                }}
-                className="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-semibold py-4 px-6 rounded-xl transition-all shadow-lg hover:shadow-xl"
+                onClick={() => handleInputSubmit(currentQuestion.id)}
+                disabled={!inputValue || parseFloat(inputValue) <= 0}
+                className="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-5 px-6 rounded-2xl transition-all shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] text-lg"
               >
                 Continue
               </button>
             </div>
           </div>
         ) : currentQuestion?.hasImages && step <= 2 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {currentQuestion?.options.map((option, idx) => (
               <button
                 key={option.value}
                 onClick={() => handleAnswer(currentQuestion.id, option.value)}
-                className="group bg-white/95 backdrop-blur hover:bg-white border-3 border-transparent hover:border-teal-500 rounded-2xl overflow-hidden shadow-xl transition-all transform hover:scale-105"
+                className="group bg-white hover:bg-gradient-to-br hover:from-white hover:to-blue-50 border-4 border-transparent hover:border-blue-400 rounded-3xl overflow-hidden shadow-2xl transition-all transform hover:scale-105 active:scale-95"
               >
-                <div className={`h-64 ${idx === 0 ? 'bg-gradient-to-br from-teal-100 to-emerald-100' : 'bg-gradient-to-br from-emerald-100 to-green-100'} flex items-center justify-center`}>
-                  <div className="text-7xl">
-                    {idx === 0 ? '👩' : '👨'}
+                <div className={`h-80 ${idx === 0 ? 'bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-100' : 'bg-gradient-to-br from-purple-100 via-pink-100 to-blue-100'} flex items-center justify-center relative overflow-hidden`}>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent"></div>
+                  <div className="text-9xl relative z-10 transform group-hover:scale-110 transition-transform">
+                    {option.emoji}
                   </div>
                 </div>
-                <div className="p-6 bg-white">
-                  <div className="font-bold text-2xl text-gray-900">
+                <div className="p-8 bg-white">
+                  <div className="font-bold text-3xl text-gray-900 group-hover:text-blue-600 transition-colors">
                     {option.label}
                   </div>
                 </div>
@@ -830,18 +893,21 @@ const WellnessPath = () => {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-5xl mx-auto">
             {currentQuestion?.options.map((option) => (
               <button
                 key={option.value}
                 onClick={() => handleAnswer(currentQuestion.id, option.value)}
-                className="group bg-white/95 backdrop-blur hover:bg-white border-2 border-transparent hover:border-teal-500 rounded-xl p-6 shadow-lg transition-all transform hover:scale-105 text-left"
+                className="group bg-white/95 backdrop-blur-lg hover:bg-white border-3 border-transparent hover:border-blue-400 rounded-2xl p-7 shadow-xl transition-all transform hover:scale-105 active:scale-95 text-left"
               >
-                <div className="font-semibold text-gray-900 text-lg mb-1">
+                {option.icon && (
+                  <div className="text-4xl mb-3">{option.icon}</div>
+                )}
+                <div className="font-bold text-gray-900 text-xl mb-2 group-hover:text-blue-600 transition-colors">
                   {option.label}
                 </div>
                 {option.sublabel && (
-                  <div className="text-gray-500 text-sm">
+                  <div className="text-gray-600 text-sm leading-relaxed">
                     {option.sublabel}
                   </div>
                 )}
@@ -851,12 +917,19 @@ const WellnessPath = () => {
         )}
 
         {step === 1 && (
-          <div className="text-center mt-16">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur px-6 py-3 rounded-full">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <p className="text-white/90 text-sm font-medium">
-                Certified nutritionists and wellness experts
-              </p>
+          <div className="text-center mt-20">
+            <div className="inline-flex flex-col items-center gap-4">
+              <div className="flex items-center gap-6">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                  <p className="text-white/90 text-sm font-medium">50,000+ Success Stories</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Star className="w-5 h-5 text-yellow-400 fill-current" />
+                  <p className="text-white/90 text-sm font-medium">4.9/5 Rating</p>
+                </div>
+              </div>
+              <p className="text-blue-200 text-sm">Certified nutritionists & wellness experts</p>
             </div>
           </div>
         )}
@@ -864,60 +937,74 @@ const WellnessPath = () => {
 
       {/* Footer */}
       {step === 1 && (
-        <footer className="bg-white/95 backdrop-blur py-12 mt-20 relative z-10 border-t border-gray-100">
+        <footer className="bg-white/95 backdrop-blur-lg py-16 mt-24 relative z-10 border-t border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="bg-gradient-to-br from-teal-50 to-emerald-50 rounded-2xl p-8 shadow-sm mb-8 border border-teal-100">
-              <h3 className="font-bold text-gray-900 text-xl mb-3 flex items-center gap-2">
-                <Shield className="w-5 h-5 text-teal-600" />
+            <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 rounded-3xl p-10 shadow-xl mb-12 border-2 border-blue-100">
+              <h3 className="font-bold text-gray-900 text-2xl mb-4 flex items-center gap-3">
+                <Shield className="w-7 h-7 text-blue-600" />
                 Important Information
               </h3>
-              <p className="text-sm text-gray-700 leading-relaxed mb-4">
+              <p className="text-gray-700 leading-relaxed mb-5">
                 Individual results may vary based on factors including starting condition, goals, commitment level, and accuracy of information provided. Typical users following our evidence-based wellness program can expect gradual, sustainable progress toward their health goals.
               </p>
-              <p className="text-sm text-gray-700 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed">
                 The content provided is for informational purposes and should not replace professional medical advice. Always consult with a qualified healthcare provider regarding your health decisions and before starting any new wellness program.
               </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div className="bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl p-6 border border-teal-200">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                    <span className="text-2xl">💬</span>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border-2 border-blue-200 hover:shadow-xl transition-shadow">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-lg">
+                    <span className="text-3xl">💬</span>
                   </div>
-                  <h4 className="font-bold text-gray-900 text-lg">Expert Support</h4>
+                  <h4 className="font-bold text-gray-900 text-xl">Expert Support</h4>
                 </div>
-                <p className="text-sm text-gray-700 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed">
                   Our certified nutrition and wellness team is available through your account dashboard. Professional guidance whenever you need it.
                 </p>
               </div>
               
-              <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl p-6 border border-emerald-200">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                    <span className="text-2xl">📚</span>
+              <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-2xl p-8 border-2 border-indigo-200 hover:shadow-xl transition-shadow">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-lg">
+                    <span className="text-3xl">📚</span>
                   </div>
-                  <h4 className="font-bold text-gray-900 text-lg">Resources & Help</h4>
+                  <h4 className="font-bold text-gray-900 text-xl">Resources & Help</h4>
                 </div>
-                <p className="text-sm text-gray-700 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed">
                   Access comprehensive guides, manage your program, or get answers to your questions through our support center.
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 border-2 border-purple-200 hover:shadow-xl transition-shadow">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-lg">
+                    <span className="text-3xl">🔒</span>
+                  </div>
+                  <h4 className="font-bold text-gray-900 text-xl">Privacy First</h4>
+                </div>
+                <p className="text-gray-700 leading-relaxed">
+                  Your data is encrypted and protected. We never share your personal information with third parties.
                 </p>
               </div>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-6 mb-6 text-sm">
-              <a href="#" className="text-gray-600 hover:text-teal-600 transition-colors font-medium">Privacy Policy</a>
+            <div className="flex flex-wrap justify-center gap-8 mb-8 text-sm">
+              <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors font-semibold">Privacy Policy</a>
               <span className="text-gray-300">•</span>
-              <a href="#" className="text-gray-600 hover:text-teal-600 transition-colors font-medium">Terms of Service</a>
+              <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors font-semibold">Terms of Service</a>
               <span className="text-gray-300">•</span>
-              <a href="#" className="text-gray-600 hover:text-teal-600 transition-colors font-medium">Cookie Preferences</a>
+              <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors font-semibold">Cookie Preferences</a>
+              <span className="text-gray-300">•</span>
+              <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors font-semibold">Contact Us</a>
             </div>
 
-            <div className="text-center border-t border-gray-200 pt-6">
-              <p className="text-sm text-gray-600 font-medium">
+            <div className="text-center border-t border-gray-200 pt-8">
+              <p className="text-gray-600 font-semibold mb-2">
                 © 2025 WellnessPath. All rights reserved.
               </p>
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-gray-500">
                 Evidence-based wellness programs designed by certified professionals
               </p>
             </div>
