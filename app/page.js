@@ -8,6 +8,7 @@ const WellnessPath = () => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [selectedPlan, setSelectedPlan] = useState('premium');
 
   const questions = [
     {
@@ -380,10 +381,10 @@ const WellnessPath = () => {
   // Loading Screen
   if (loading && step <= 36) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 flex items-center justify-center p-4 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-teal-900 via-emerald-800 to-green-900 flex items-center justify-center p-4 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-400 rounded-full blur-3xl"></div>
+          <div className="absolute top-20 left-10 w-72 h-72 bg-teal-400 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-green-400 rounded-full blur-3xl"></div>
         </div>
 
         <div className="max-w-2xl w-full relative z-10">
@@ -415,8 +416,8 @@ const WellnessPath = () => {
               />
               <defs>
                 <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#60A5FA" />
-                  <stop offset="100%" stopColor="#A78BFA" />
+                  <stop offset="0%" stopColor="#14B8A6" />
+                  <stop offset="100%" stopColor="#10B981" />
                 </linearGradient>
               </defs>
             </svg>
@@ -431,7 +432,7 @@ const WellnessPath = () => {
             </h2>
             <div className="space-y-5">
               <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <Check className="w-5 h-5 text-white" strokeWidth={3} />
                 </div>
                 <p className="text-gray-700 leading-relaxed">
@@ -439,7 +440,7 @@ const WellnessPath = () => {
                 </p>
               </div>
               <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <Check className="w-5 h-5 text-white" strokeWidth={3} />
                 </div>
                 <p className="text-gray-700 leading-relaxed">
@@ -447,7 +448,7 @@ const WellnessPath = () => {
                 </p>
               </div>
               <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <Check className="w-5 h-5 text-white" strokeWidth={3} />
                 </div>
                 <p className="text-gray-700 leading-relaxed">
@@ -464,10 +465,10 @@ const WellnessPath = () => {
   // Email Capture Screen
   if (step === 37) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-emerald-50 to-green-50 flex items-center justify-center p-4">
         <div className="max-w-2xl w-full">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl shadow-xl mb-6">
+            <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-teal-600 to-emerald-600 rounded-2xl shadow-xl mb-6">
               <Mail className="w-12 h-12 text-white" strokeWidth={2} />
             </div>
             
@@ -486,21 +487,21 @@ const WellnessPath = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your.email@example.com"
-              className="w-full px-6 py-4 text-lg bg-gray-50 border-2 border-gray-200 rounded-xl focus:bg-white focus:border-blue-500 focus:outline-none mb-4 transition-all"
+              className="w-full px-6 py-4 text-lg bg-gray-50 border-2 border-gray-200 rounded-xl focus:bg-white focus:border-teal-500 focus:outline-none mb-4 transition-all"
             />
             
-            <div className="flex items-start gap-3 text-sm text-gray-600 mb-6 p-4 bg-blue-50 rounded-xl">
-              <Shield className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 text-sm text-gray-600 mb-6 p-4 bg-teal-50 rounded-xl">
+              <Shield className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
               <p className="leading-relaxed">Your privacy is our priority. All personal information is encrypted and securely stored.</p>
             </div>
 
             <button
               onClick={() => {
                 if (email) {
-                  alert('Thank you! Your personalized wellness plan is being prepared.');
+                  setStep(38);
                 }
               }}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition-all text-lg shadow-lg hover:shadow-xl"
+              className="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-semibold py-4 px-6 rounded-xl transition-all text-lg shadow-lg hover:shadow-xl"
             >
               Get My Personalized Plan
             </button>
@@ -514,22 +515,211 @@ const WellnessPath = () => {
     );
   }
 
+  // Payment Page
+  if (step === 38) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-emerald-50 to-green-50 py-8 px-4">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+              Choose Your Wellness Plan
+            </h1>
+            <p className="text-lg text-gray-600">
+              Select the plan that works best for your goals
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
+            {/* Basic Plan */}
+            <div className={`bg-white rounded-2xl p-8 shadow-lg border-2 transition-all cursor-pointer ${selectedPlan === 'basic' ? 'border-teal-600 shadow-xl' : 'border-gray-200 hover:border-teal-300'}`}
+              onClick={() => setSelectedPlan('basic')}>
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Basic</h3>
+                <div className="text-4xl font-bold text-teal-600 mb-1">$29</div>
+                <div className="text-sm text-gray-500">per month</div>
+              </div>
+              
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">Personalized meal plans</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">Basic workout routines</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">Progress tracking</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">Email support</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Premium Plan */}
+            <div className={`bg-white rounded-2xl p-8 shadow-lg border-2 transition-all cursor-pointer relative ${selectedPlan === 'premium' ? 'border-emerald-600 shadow-2xl scale-105' : 'border-emerald-300 hover:border-emerald-400'}`}
+              onClick={() => setSelectedPlan('premium')}>
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                  Most Popular
+                </span>
+              </div>
+              
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Premium</h3>
+                <div className="text-4xl font-bold text-emerald-600 mb-1">$59</div>
+                <div className="text-sm text-gray-500">per month</div>
+              </div>
+              
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">Everything in Basic</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">Advanced workout programs</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">1-on-1 nutritionist consultation</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">Priority chat support</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">Weekly progress reviews</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Elite Plan */}
+            <div className={`bg-white rounded-2xl p-8 shadow-lg border-2 transition-all cursor-pointer ${selectedPlan === 'elite' ? 'border-green-600 shadow-xl' : 'border-gray-200 hover:border-green-300'}`}
+              onClick={() => setSelectedPlan('elite')}>
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Elite</h3>
+                <div className="text-4xl font-bold text-green-600 mb-1">$99</div>
+                <div className="text-sm text-gray-500">per month</div>
+              </div>
+              
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">Everything in Premium</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">Personal trainer sessions</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">24/7 dedicated support</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">Custom supplement plans</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">Monthly body composition analysis</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Payment Methods */}
+          <div className="max-w-2xl mx-auto bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Payment Method</h2>
+            
+            <div className="space-y-4 mb-8">
+              {/* Credit Card */}
+              <div className="border-2 border-teal-600 rounded-xl p-6 bg-teal-50">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-6 h-6 rounded-full border-2 border-teal-600 bg-teal-600 flex items-center justify-center">
+                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                  </div>
+                  <span className="font-semibold text-gray-900">Credit / Debit Card</span>
+                </div>
+                
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Card Number</label>
+                    <input type="text" placeholder="1234 5678 9012 3456" className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-teal-500 focus:outline-none" />
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Expiry Date</label>
+                      <input type="text" placeholder="MM/YY" className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-teal-500 focus:outline-none" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">CVV</label>
+                      <input type="text" placeholder="123" className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-teal-500 focus:outline-none" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* PayPal */}
+              <div className="border-2 border-gray-200 rounded-xl p-6 hover:border-teal-300 cursor-pointer transition-all">
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 rounded-full border-2 border-gray-300"></div>
+                  <span className="font-semibold text-gray-900">PayPal</span>
+                  <div className="ml-auto">
+                    <span className="text-2xl font-bold text-blue-600">Pay</span><span className="text-2xl font-bold text-cyan-600">Pal</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Google Pay */}
+              <div className="border-2 border-gray-200 rounded-xl p-6 hover:border-teal-300 cursor-pointer transition-all">
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 rounded-full border-2 border-gray-300"></div>
+                  <span className="font-semibold text-gray-900">Google Pay</span>
+                  <div className="ml-auto text-2xl">G</div>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => alert(`Payment successful! Welcome to the ${selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} plan!`)}
+              className="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-semibold py-4 px-6 rounded-xl transition-all text-lg shadow-lg hover:shadow-xl"
+            >
+              Complete Payment
+            </button>
+
+            <p className="text-xs text-gray-500 text-center mt-6 leading-relaxed">
+              <Lock className="w-3 h-3 inline mr-1" />
+              Secure payment processed with 256-bit SSL encryption
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Main Question Flow
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-teal-900 via-emerald-800 to-green-900 relative overflow-hidden">
       <div className="absolute inset-0 opacity-5 pointer-events-none">
-        <div className="absolute top-10 right-10 w-96 h-96 bg-blue-400 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-10 left-10 w-80 h-80 bg-purple-400 rounded-full blur-3xl"></div>
+        <div className="absolute top-10 right-10 w-96 h-96 bg-teal-400 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 left-10 w-80 h-80 bg-green-400 rounded-full blur-3xl"></div>
       </div>
 
       {/* Header */}
       <header className="bg-white/95 backdrop-blur shadow-sm relative z-20 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+            <div className="w-10 h-10 bg-gradient-to-br from-teal-600 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg">
               <span className="text-xl font-bold text-white">W</span>
             </div>
-            <span className="font-bold text-xl sm:text-2xl text-gray-900">Wellness<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Path</span></span>
+            <span className="font-bold text-xl sm:text-2xl text-gray-900">Wellness<span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-600">Path</span></span>
           </div>
           <button className="w-10 h-10 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center">
             <User className="w-5 h-5 text-gray-600" />
@@ -559,7 +749,7 @@ const WellnessPath = () => {
               </div>
               <div className="h-2 bg-white/20 rounded-full overflow-hidden backdrop-blur-sm">
                 <div
-                  className="h-full bg-gradient-to-r from-blue-400 to-purple-500 transition-all duration-500 ease-out rounded-full"
+                  className="h-full bg-gradient-to-r from-teal-400 to-emerald-500 transition-all duration-500 ease-out rounded-full"
                   style={{ width: `${(step / 36) * 100}%` }}
                 />
               </div>
@@ -574,7 +764,7 @@ const WellnessPath = () => {
           <div className="text-center mb-16">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
               Your Journey to Better Health<br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Starts Here</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-400">Starts Here</span>
             </h1>
             <p className="text-xl text-white/80 max-w-2xl mx-auto">
               Evidence-based wellness program tailored to your unique needs
@@ -612,7 +802,7 @@ const WellnessPath = () => {
                   const input = e.target.parentElement.parentElement.querySelector('input');
                   handleInputSubmit(currentQuestion.id, input.value);
                 }}
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition-all shadow-lg hover:shadow-xl"
+                className="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-semibold py-4 px-6 rounded-xl transition-all shadow-lg hover:shadow-xl"
               >
                 Continue
               </button>
@@ -624,9 +814,9 @@ const WellnessPath = () => {
               <button
                 key={option.value}
                 onClick={() => handleAnswer(currentQuestion.id, option.value)}
-                className="group bg-white/95 backdrop-blur hover:bg-white border-3 border-transparent hover:border-blue-500 rounded-2xl overflow-hidden shadow-xl transition-all transform hover:scale-105"
+                className="group bg-white/95 backdrop-blur hover:bg-white border-3 border-transparent hover:border-teal-500 rounded-2xl overflow-hidden shadow-xl transition-all transform hover:scale-105"
               >
-                <div className={`h-64 ${idx === 0 ? 'bg-gradient-to-br from-purple-100 to-pink-100' : 'bg-gradient-to-br from-blue-100 to-cyan-100'} flex items-center justify-center`}>
+                <div className={`h-64 ${idx === 0 ? 'bg-gradient-to-br from-teal-100 to-emerald-100' : 'bg-gradient-to-br from-emerald-100 to-green-100'} flex items-center justify-center`}>
                   <div className="text-7xl">
                     {idx === 0 ? '👩' : '👨'}
                   </div>
@@ -645,7 +835,7 @@ const WellnessPath = () => {
               <button
                 key={option.value}
                 onClick={() => handleAnswer(currentQuestion.id, option.value)}
-                className="group bg-white/95 backdrop-blur hover:bg-white border-2 border-transparent hover:border-blue-500 rounded-xl p-6 shadow-lg transition-all transform hover:scale-105 text-left"
+                className="group bg-white/95 backdrop-blur hover:bg-white border-2 border-transparent hover:border-teal-500 rounded-xl p-6 shadow-lg transition-all transform hover:scale-105 text-left"
               >
                 <div className="font-semibold text-gray-900 text-lg mb-1">
                   {option.label}
@@ -676,9 +866,9 @@ const WellnessPath = () => {
       {step === 1 && (
         <footer className="bg-white/95 backdrop-blur py-12 mt-20 relative z-10 border-t border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 shadow-sm mb-8 border border-blue-100">
+            <div className="bg-gradient-to-br from-teal-50 to-emerald-50 rounded-2xl p-8 shadow-sm mb-8 border border-teal-100">
               <h3 className="font-bold text-gray-900 text-xl mb-3 flex items-center gap-2">
-                <Shield className="w-5 h-5 text-blue-600" />
+                <Shield className="w-5 h-5 text-teal-600" />
                 Important Information
               </h3>
               <p className="text-sm text-gray-700 leading-relaxed mb-4">
@@ -690,7 +880,7 @@ const WellnessPath = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200">
+              <div className="bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl p-6 border border-teal-200">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
                     <span className="text-2xl">💬</span>
@@ -702,7 +892,7 @@ const WellnessPath = () => {
                 </p>
               </div>
               
-              <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border border-purple-200">
+              <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl p-6 border border-emerald-200">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
                     <span className="text-2xl">📚</span>
@@ -716,11 +906,11 @@ const WellnessPath = () => {
             </div>
 
             <div className="flex flex-wrap justify-center gap-6 mb-6 text-sm">
-              <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Privacy Policy</a>
+              <a href="#" className="text-gray-600 hover:text-teal-600 transition-colors font-medium">Privacy Policy</a>
               <span className="text-gray-300">•</span>
-              <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Terms of Service</a>
+              <a href="#" className="text-gray-600 hover:text-teal-600 transition-colors font-medium">Terms of Service</a>
               <span className="text-gray-300">•</span>
-              <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Cookie Preferences</a>
+              <a href="#" className="text-gray-600 hover:text-teal-600 transition-colors font-medium">Cookie Preferences</a>
             </div>
 
             <div className="text-center border-t border-gray-200 pt-6">
